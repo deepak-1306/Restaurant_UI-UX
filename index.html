@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fork & Flame | Fine Dining</title>
+    <style>
+      /* Global Styles */
+      :root {
+        --primary: #8b0000;
+        --secondary: #f5f5dc;
+        --accent: #d4af37;
+        --text: #333333;
+        --light: #ffffff;
+        --dark: #222222;
+      }
+
+      /* Dark Theme Variables */
+      :root.dark-theme {
+        --primary: #a52a2a;
+        --secondary: #333333;
+        --text: #f5f5dc;
+        --light: #222222;
+      }
+
+      /* Red Accent Theme */
+      :root.red-theme {
+        --primary: #ff0000;
+        --accent: #ffd700;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Arial", sans-serif;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      body {
+        color: var(--text);
+        line-height: 1.6;
+        background-color: var(--light);
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 12px 24px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: none;
+      }
+
+      .btn-primary {
+        background-color: var(--primary);
+        color: var(--light);
+      }
+
+      .btn-primary:hover {
+        background-color: #6d0000;
+      }
+
+      .btn-secondary {
+        background-color: var(--secondary);
+        color: var(--text);
+        border: 1px solid var(--primary);
+      }
+
+      .btn-secondary:hover {
+        background-color: #e5e5cc;
+      }
+
+      .btn-danger {
+        background-color: #dc3545;
+        color: white;
+      }
+
+      .btn-danger:hover {
+        background-color: #bb2d3b;
+      }
+
+      /* Header Styles */
+      header {
+        background-color: var(--light);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        width: 100%;
+        z-index: 100;
+      }
+
+      .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+      }
+
+      .logo {
+        font-size: 28px;
+        font-weight: bold;
+        color: var(--primary);
+        font-family: "Georgia", serif;
+      }
+
+      .logo span {
+        color: var(--accent);
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+      }
+
+      nav ul li {
+        margin-left: 30px;
+      }
+
+      nav ul li a {
+        text-decoration: none;
+        color: var(--text);
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+      nav ul li a:hover {
+        color: var(--primary);
+      }
+
+      /* Hero Section */
+      .hero {
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4");
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        color: var(--light);
+        text-align: center;
+      }
+
+      .hero-content {
+        width: 100%;
+      }
+
+      .hero h1 {
+        font-size: 48px;
+        margin-bottom: 20px;
+        font-family: "Georgia", serif;
+      }
+
+      .hero p {
+        font-size: 20px;
+        margin-bottom: 30px;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      /* Featured Dishes */
+      .featured {
+        padding: 100px 0 80px;
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+
+      .section-title h2 {
+        font-size: 36px;
+        color: var(--primary);
+        font-family: "Georgia", serif;
+      }
+
+      .section-title p {
+        color: #666;
+        max-width: 600px;
+        margin: 10px auto 0;
+      }
+
+      .dishes {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+
+      .dish-card {
+        background: var(--light);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .dish-card:hover {
+        transform: translateY(-10px);
+      }
+
+      .dish-img {
+        height: 200px;
+        overflow: hidden;
+      }
+
+      .dish-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .dish-card:hover .dish-img img {
+        transform: scale(1.1);
+      }
+
+      .dish-info {
+        padding: 20px;
+      }
+
+      .dish-info h3 {
+        font-size: 22px;
+        margin-bottom: 10px;
+        color: var(--primary);
+      }
+
+      .dish-info p {
+        color: #666;
+        margin-bottom: 15px;
+      }
+
+      .dish-price {
+        font-weight: bold;
+        color: var(--accent);
+        font-size: 20px;
+      }
+
+      .favorite-btn {
+        background: none;
+        border: none;
+        color: #ccc;
+        font-size: 20px;
+        cursor: pointer;
+        transition: color 0.3s;
+        margin-right: 10px;
+      }
+
+      .favorite-btn.favorited {
+        color: var(--accent);
+      }
+
+      /* Preferences Section */
+      .preferences {
+        padding: 80px 0;
+        background-color: var(--secondary);
+      }
+
+      .preference-options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin: 30px 0;
+      }
+
+      .preference-group {
+        margin-bottom: 20px;
+      }
+
+      .preference-group h3 {
+        margin-bottom: 15px;
+        color: var(--primary);
+      }
+
+      select,
+      input[type="text"],
+      input[type="email"],
+      input[type="date"],
+      input[type="time"],
+      input[type="tel"] {
+        padding: 10px;
+        width: 100%;
+        border: 1px solid var(--primary);
+        background-color: var(--light);
+        color: var(--text);
+        margin-bottom: 10px;
+        border-radius: 4px;
+      }
+
+      .checkbox-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .checkbox-group label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      /* Reservation Section */
+      .reservation {
+        padding: 80px 0;
+      }
+
+      .reservation-form {
+        max-width: 600px;
+        margin: 0 auto;
+        background: var(--light);
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      /* My Reservations Section */
+      .my-reservations {
+        padding: 80px 0;
+        background-color: var(--secondary);
+      }
+
+      .reservation-card {
+        background: var(--light);
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .reservation-info h3 {
+        color: var(--primary);
+        margin-bottom: 10px;
+      }
+
+      .reservation-info p {
+        margin-bottom: 5px;
+      }
+
+      /* Orders Section */
+      .orders {
+        padding: 80px 0;
+        background-color: var(--secondary);
+      }
+
+      .order-card {
+        background: var(--light);
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .order-info h3 {
+        color: var(--primary);
+        margin-bottom: 10px;
+      }
+
+      .order-info p {
+        margin-bottom: 5px;
+      }
+
+      /* Footer */
+      footer {
+        background-color: var(--dark);
+        color: var(--light);
+        padding: 60px 0 20px;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+
+      .footer-column h3 {
+        color: var(--accent);
+        margin-bottom: 20px;
+        font-size: 20px;
+      }
+
+      .footer-column ul {
+        list-style: none;
+      }
+
+      .footer-column ul li {
+        margin-bottom: 10px;
+      }
+
+      .footer-column ul li a {
+        color: #ccc;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-column ul li a:hover {
+        color: var(--light);
+      }
+
+      .social-icons {
+        display: flex;
+        gap: 15px;
+      }
+
+      .social-icons a {
+        color: var(--light);
+        font-size: 20px;
+      }
+
+      .newsletter input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        border: none;
+      }
+
+      .copyright {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid #444;
+        color: #ccc;
+      }
+
+      /* Mobile Menu */
+      .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--primary);
+        font-size: 24px;
+        cursor: pointer;
+      }
+
+      @media (max-width: 768px) {
+        .mobile-menu-btn {
+          display: block;
+        }
+
+        nav ul {
+          display: none;
+          flex-direction: column;
+          position: absolute;
+          top: 80px;
+          left: 0;
+          width: 100%;
+          background: var(--light);
+          padding: 20px;
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav ul.show {
+          display: flex;
+        }
+
+        nav ul li {
+          margin: 10px 0;
+        }
+
+        .preference-options {
+          grid-template-columns: 1fr;
+        }
+
+        .reservation-card,
+        .order-card {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="container header-container">
+        <div class="logo">Fork&<span>Flame</span></div>
+        <button class="mobile-menu-btn">☰</button>
+        <nav>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#preferences">Preferences</a></li>
+            <li><a href="#reservations">Reservations</a></li>
+            <li><a href="#my-reservations">My Bookings</a></li>
+            <li><a href="#orders">My Orders</a></li>
+          </ul>
+        </nav>
+        <a href="#reservations" class="btn btn-primary">Make Reservation</a>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="container hero-content">
+        <h1>Authentic Indian Dining Experience</h1>
+        <p>
+          Since 2007, we've been serving the finest Indian cuisine made with
+          locally-sourced ingredients and traditional recipes passed down
+          through generations.
+        </p>
+        <div class="hero-buttons">
+          <a href="#menu" class="btn btn-primary">View Menu</a>
+          <a href="#reservations" class="btn btn-secondary">Book a Table</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Dishes -->
+    <section class="featured" id="menu">
+      <div class="container">
+        <div class="section-title">
+          <h2>Our Signature Dishes</h2>
+          <p>
+            Each dish tells a story of tradition, passion, and culinary
+            excellence
+          </p>
+        </div>
+        <div class="dishes" id="menu-items">
+          <!-- Menu items will be loaded here by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Preferences Section -->
+    <section class="preferences" id="preferences">
+      <div class="container">
+        <h2>My Preferences</h2>
+        <div class="preference-options">
+          <div class="preference-group">
+            <h3>Theme</h3>
+            <select id="themeSelect">
+              <option value="light">Light Theme</option>
+              <option value="dark">Dark Theme</option>
+              <option value="red">Red Accent Theme</option>
+            </select>
+          </div>
+          <div class="preference-group">
+            <h3>Dietary Restrictions</h3>
+            <div class="checkbox-group">
+              <label
+                ><input type="checkbox" name="vegetarian" /> Vegetarian</label
+              >
+              <label><input type="checkbox" name="vegan" /> Vegan</label>
+              <label
+                ><input type="checkbox" name="gluten-free" /> Gluten-Free</label
+              >
+            </div>
+          </div>
+          <div class="preference-group">
+            <h3>Notification Preferences</h3>
+            <div class="checkbox-group">
+              <label
+                ><input type="checkbox" name="email-notifications" /> Email
+                Notifications</label
+              >
+              <label
+                ><input type="checkbox" name="sms-notifications" /> SMS
+                Notifications</label
+              >
+            </div>
+          </div>
+        </div>
+        <button id="savePrefs" class="btn btn-primary">Save Preferences</button>
+      </div>
+    </section>
+
+    <!-- Reservation Section -->
+    <section class="reservation" id="reservations">
+      <div class="container">
+        <div class="section-title">
+          <h2>Make a Reservation</h2>
+          <p>Book your table for an unforgettable dining experience</p>
+        </div>
+        <div class="reservation-form">
+          <div class="form-group">
+            <input
+              type="text"
+              id="reservationName"
+              placeholder="Your Name"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="email"
+              id="reservationEmail"
+              placeholder="Email Address"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="tel"
+              id="reservationPhone"
+              placeholder="Phone Number"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input type="date" id="reservationDate" required />
+          </div>
+          <div class="form-group">
+            <input type="time" id="reservationTime" required />
+          </div>
+          <div class="form-group">
+            <select id="reservationGuests" required>
+              <option value="">Number of Guests</option>
+              <option value="1">1 Person</option>
+              <option value="2">2 People</option>
+              <option value="3">3 People</option>
+              <option value="4">4 People</option>
+              <option value="5">5 People</option>
+              <option value="6">6 People</option>
+            </select>
+          </div>
+          <button id="submitReservation" class="btn btn-primary">
+            Book Table
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- My Reservations Section -->
+    <section class="my-reservations" id="my-reservations">
+      <div class="container">
+        <div class="section-title">
+          <h2>My Reservations</h2>
+          <p>View and manage your upcoming reservations</p>
+        </div>
+        <div id="reservation-list">
+          <!-- Reservations will be loaded here by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Orders Section -->
+    <section class="orders" id="orders">
+      <div class="container">
+        <div class="section-title">
+          <h2>My Orders</h2>
+          <p>Track your current and past orders</p>
+        </div>
+        <div id="order-list">
+          <!-- Orders will be loaded here by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-column">
+            <h3>Fork&Flame</h3>
+            <p>123 Culinary Avenue<br />Gourmet City, GC 12345</p>
+            <p>Phone: (555) 123-4567<br />Email: info@forkandflame.com</p>
+          </div>
+          <div class="footer-column">
+            <h3>Hours</h3>
+            <ul>
+              <li>Monday - Thursday: 11am - 10pm</li>
+              <li>Friday - Saturday: 11am - 11pm</li>
+              <li>Sunday: 10am - 9pm</li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="#home">Home</a></li>
+              <li><a href="#menu">Menu</a></li>
+              <li><a href="#preferences">Preferences</a></li>
+              <li><a href="#reservations">Reservations</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3>Stay Connected</h3>
+            <div class="social-icons">
+              <a href="#">FB</a>
+              <a href="#">IG</a>
+              <a href="#">TW</a>
+            </div>
+            <div class="newsletter">
+              <h4>Newsletter</h4>
+              <input type="email" placeholder="Your email" />
+              <a href="#" class="btn btn-primary">Subscribe</a>
+            </div>
+          </div>
+        </div>
+        <div class="copyright">
+          <p>&copy; 2023 Fork&Flame. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Database simulation using localStorage
+      class RestaurantDB {
+        constructor() {
+          this.initDB();
+        }
+
+        initDB() {
+          if (!localStorage.getItem("restaurantDB")) {
+            const initialData = {
+              menuItems: [
+                {
+                  id: 1,
+                  name: "Special Cappuccino",
+                  description:
+                    "Sprinkle of toffee with large choco-dipped cookie",
+                  price: 5.99,
+                  category: "Beverage",
+                  image:
+                    "https://th.bing.com/th/id/R.35275d05623fd70d92c96516027b1277?rik=yLrn%2fPBy%2farxfQ&riu=http%3a%2f%2fcdn.luxuo.com%2f2015%2f02%2fStarbucks-coffee.jpg&ehk=IgYqxizYaCsPaH6h8Hw1EO0319H1LCtu3mSyVNGeKWY%3d&risl=&pid=ImgRaw&r=0",
+                },
+                {
+                  id: 2,
+                  name: "Cheesy American BBQ",
+                  description:
+                    "Hot toasted sub loaded with 1.5x filling and real mozzarella cheese",
+                  price: 8.99,
+                  category: "Main Course",
+                  image:
+                    "https://s.hdnux.com/photos/35/21/43/7674049/4/rawImage.jpg",
+                },
+                {
+                  id: 3,
+                  name: "Butter Chicken",
+                  description:
+                    "Classic Indian dish with tender chicken in rich tomato sauce",
+                  price: 12.99,
+                  category: "Main Course",
+                  image:
+                    "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398",
+                },
+                {
+                  id: 4,
+                  name: "Creamy Cheesy Pasta",
+                  description:
+                    "Pasta in rich creamy cheese sauce with herbs and spices",
+                  price: 10.99,
+                  category: "Main Course",
+                  image:
+                    "https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb",
+                },
+                {
+                  id: 5,
+                  name: "Indian Spicy Biriyani",
+                  description:
+                    "Fragrant basmati rice cooked with spices and tender meat",
+                  price: 14.99,
+                  category: "Main Course",
+                  image:
+                    "https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a",
+                },
+                {
+                  id: 6,
+                  name: "Rose Coated Caramelized Pudding",
+                  description:
+                    "Delicate pudding with rose essence and caramelized sugar top",
+                  price: 7.99,
+                  category: "Dessert",
+                  image:
+                    "https://images.unsplash.com/photo-1563805042-7684c019e1cb",
+                },
+              ],
+              reservations: [],
+              orders: [],
+              preferences: {
+                theme: "light",
+                dietaryRestrictions: [],
+                notificationPreferences: {
+                  email: true,
+                  sms: false,
+                },
+                favoriteDishes: [],
+              },
+            };
+            localStorage.setItem("restaurantDB", JSON.stringify(initialData));
+          }
+        }
+
+        getDB() {
+          return JSON.parse(localStorage.getItem("restaurantDB"));
+        }
+
+        updateDB(data) {
+          localStorage.setItem("restaurantDB", JSON.stringify(data));
+        }
+
+        getMenuItems() {
+          return this.getDB().menuItems;
+        }
+
+        getPreferences() {
+          return this.getDB().preferences;
+        }
+
+        updatePreferences(newPrefs) {
+          const db = this.getDB();
+          db.preferences = newPrefs;
+          this.updateDB(db);
+        }
+
+        addReservation(reservation) {
+          const db = this.getDB();
+          db.reservations.push(reservation);
+          this.updateDB(db);
+        }
+
+        getReservations() {
+          return this.getDB().reservations;
+        }
+
+        cancelReservation(reservationId) {
+          const db = this.getDB();
+          db.reservations = db.reservations.filter(
+            (res) => res.id !== reservationId
+          );
+          this.updateDB(db);
+        }
+
+        addOrder(order) {
+          const db = this.getDB();
+          db.orders.push(order);
+          this.updateDB(db);
+        }
+
+        getOrders() {
+          return this.getDB().orders;
+        }
+
+        cancelOrder(orderId) {
+          const db = this.getDB();
+          db.orders = db.orders.filter((order) => order.id !== orderId);
+          this.updateDB(db);
+        }
+
+        toggleFavorite(dishId) {
+          const db = this.getDB();
+          const index = db.preferences.favoriteDishes.indexOf(dishId);
+          if (index === -1) {
+            db.preferences.favoriteDishes.push(dishId);
+          } else {
+            db.preferences.favoriteDishes.splice(index, 1);
+          }
+          this.updateDB(db);
+          return db.preferences.favoriteDishes.includes(dishId);
+        }
+      }
+
+      // Main Application
+      class RestaurantApp {
+        constructor() {
+          this.db = new RestaurantDB();
+          this.currentUser = "guest"; // In a real app, this would be dynamic
+
+          // Initialize the app
+          this.initMenu();
+          this.initPreferences();
+          this.initReservations();
+          this.initMyReservations();
+          this.initOrders();
+          this.initMobileMenu();
+          this.applyTheme();
+        }
+
+        initMobileMenu() {
+          const menuBtn = document.querySelector(".mobile-menu-btn");
+          const nav = document.querySelector("nav ul");
+
+          menuBtn.addEventListener("click", () => {
+            nav.classList.toggle("show");
+          });
+        }
+
+        initMenu() {
+          const menuContainer = document.getElementById("menu-items");
+          const menuItems = this.db.getMenuItems();
+          const favorites = this.db.getPreferences().favoriteDishes;
+
+          menuItems.forEach((item) => {
+            const isFavorite = favorites.includes(item.id);
+
+            const dishCard = document.createElement("div");
+            dishCard.className = "dish-card";
+            dishCard.innerHTML = `
+                        <div class="dish-img">
+                            <img src="${item.image}" alt="${item.name}">
+                        </div>
+                        <div class="dish-info">
+                            <h3>${item.name}</h3>
+                            <p>${item.description}</p>
+                            <div class="dish-price">$${item.price.toFixed(
+                              2
+                            )}</div>
+                            <button class="favorite-btn ${
+                              isFavorite ? "favorited" : ""
+                            }" data-id="${item.id}">
+                                ${isFavorite ? "★" : "☆"}
+                            </button>
+                            <button class="btn btn-secondary order-btn" data-id="${
+                              item.id
+                            }">Order Now</button>
+                        </div>
+                    `;
+            menuContainer.appendChild(dishCard);
+          });
+
+          // Add event listeners for favorite buttons
+          document.querySelectorAll(".favorite-btn").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+              const dishId = parseInt(e.target.getAttribute("data-id"));
+              const isNowFavorite = this.db.toggleFavorite(dishId);
+              e.target.classList.toggle("favorited", isNowFavorite);
+              e.target.innerHTML = isNowFavorite ? "★" : "☆";
+            });
+          });
+
+          // Add event listeners for order buttons
+          document.querySelectorAll(".order-btn").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+              const dishId = parseInt(e.target.getAttribute("data-id"));
+              const dish = this.db
+                .getMenuItems()
+                .find((item) => item.id === dishId);
+              this.addOrder(dish);
+              alert(`${dish.name} has been added to your orders!`);
+            });
+          });
+        }
+
+        initPreferences() {
+          const prefs = this.db.getPreferences();
+
+          // Set current theme
+          document.getElementById("themeSelect").value = prefs.theme;
+
+          // Set dietary restrictions
+          const dietaryChecks = document.querySelectorAll(
+            '.preference-group input[type="checkbox"]'
+          );
+          dietaryChecks.forEach((checkbox) => {
+            const name = checkbox.getAttribute("name");
+            if (
+              name === "vegetarian" &&
+              prefs.dietaryRestrictions.includes("vegetarian")
+            ) {
+              checkbox.checked = true;
+            } else if (
+              name === "vegan" &&
+              prefs.dietaryRestrictions.includes("vegan")
+            ) {
+              checkbox.checked = true;
+            } else if (
+              name === "gluten-free" &&
+              prefs.dietaryRestrictions.includes("gluten-free")
+            ) {
+              checkbox.checked = true;
+            } else if (
+              name === "email-notifications" &&
+              prefs.notificationPreferences.email
+            ) {
+              checkbox.checked = true;
+            } else if (
+              name === "sms-notifications" &&
+              prefs.notificationPreferences.sms
+            ) {
+              checkbox.checked = true;
+            }
+          });
+
+          // Theme selector
+          document
+            .getElementById("themeSelect")
+            .addEventListener("change", (e) => {
+              const theme = e.target.value;
+              this.updateTheme(theme);
+            });
+
+          // Save preferences button
+          document.getElementById("savePrefs").addEventListener("click", () => {
+            this.savePreferences();
+          });
+        }
+
+        updateTheme(theme) {
+          const html = document.documentElement;
+
+          // Remove all theme classes
+          html.classList.remove("dark-theme", "red-theme");
+
+          // Apply selected theme
+          if (theme === "dark") {
+            html.classList.add("dark-theme");
+          } else if (theme === "red") {
+            html.classList.add("red-theme");
+          }
+
+          // Update in preferences
+          const db = this.db.getDB();
+          db.preferences.theme = theme;
+          this.db.updateDB(db);
+        }
+
+        applyTheme() {
+          const theme = this.db.getPreferences().theme;
+          document.getElementById("themeSelect").value = theme;
+          this.updateTheme(theme);
+        }
+
+        savePreferences() {
+          const db = this.db.getDB();
+
+          // Get theme
+          db.preferences.theme = document.getElementById("themeSelect").value;
+
+          // Get dietary restrictions
+          db.preferences.dietaryRestrictions = [];
+          if (document.querySelector('input[name="vegetarian"]').checked) {
+            db.preferences.dietaryRestrictions.push("vegetarian");
+          }
+          if (document.querySelector('input[name="vegan"]').checked) {
+            db.preferences.dietaryRestrictions.push("vegan");
+          }
+          if (document.querySelector('input[name="gluten-free"]').checked) {
+            db.preferences.dietaryRestrictions.push("gluten-free");
+          }
+
+          // Get notification preferences
+          db.preferences.notificationPreferences = {
+            email: document.querySelector('input[name="email-notifications"]')
+              .checked,
+            sms: document.querySelector('input[name="sms-notifications"]')
+              .checked,
+          };
+
+          this.db.updateDB(db);
+          alert("Preferences saved successfully!");
+          this.applyTheme();
+        }
+
+        initReservations() {
+          document
+            .getElementById("submitReservation")
+            .addEventListener("click", () => {
+              this.makeReservation();
+            });
+        }
+
+        makeReservation() {
+          const name = document.getElementById("reservationName").value;
+          const email = document.getElementById("reservationEmail").value;
+          const phone = document.getElementById("reservationPhone").value;
+          const date = document.getElementById("reservationDate").value;
+          const time = document.getElementById("reservationTime").value;
+          const guests = document.getElementById("reservationGuests").value;
+
+          if (!name || !email || !phone || !date || !time || !guests) {
+            alert("Please fill in all fields");
+            return;
+          }
+
+          const reservation = {
+            id: Date.now(),
+            name,
+            email,
+            phone,
+            date,
+            time,
+            guests,
+            status: "Confirmed",
+          };
+
+          this.db.addReservation(reservation);
+
+          alert(
+            `Reservation confirmed for ${name} on ${date} at ${time} for ${guests} guests.`
+          );
+
+          // Clear form
+          document.getElementById("reservationName").value = "";
+          document.getElementById("reservationEmail").value = "";
+          document.getElementById("reservationPhone").value = "";
+          document.getElementById("reservationDate").value = "";
+          document.getElementById("reservationTime").value = "";
+          document.getElementById("reservationGuests").value = "";
+
+          // Refresh reservations list
+          this.displayReservations();
+        }
+
+        initMyReservations() {
+          this.displayReservations();
+        }
+
+        displayReservations() {
+          const reservationsContainer =
+            document.getElementById("reservation-list");
+          reservationsContainer.innerHTML = "";
+
+          const reservations = this.db.getReservations();
+
+          if (reservations.length === 0) {
+            reservationsContainer.innerHTML =
+              "<p>You have no upcoming reservations.</p>";
+            return;
+          }
+
+          reservations.forEach((reservation) => {
+            const reservationCard = document.createElement("div");
+            reservationCard.className = "reservation-card";
+            reservationCard.innerHTML = `
+                        <div class="reservation-info">
+                            <h3>Reservation #${reservation.id}</h3>
+                            <p>Name: ${reservation.name}</p>
+                            <p>Date: ${reservation.date}</p>
+                            <p>Time: ${reservation.time}</p>
+                            <p>Guests: ${reservation.guests}</p>
+                            <p>Status: ${reservation.status}</p>
+                        </div>
+                        <button class="btn btn-danger cancel-reservation-btn" data-id="${reservation.id}">Cancel Reservation</button>
+                    `;
+            reservationsContainer.appendChild(reservationCard);
+          });
+
+          // Add event listeners for cancel buttons
+          document
+            .querySelectorAll(".cancel-reservation-btn")
+            .forEach((btn) => {
+              btn.addEventListener("click", (e) => {
+                const reservationId = parseInt(
+                  e.target.getAttribute("data-id")
+                );
+                if (
+                  confirm("Are you sure you want to cancel this reservation?")
+                ) {
+                  this.db.cancelReservation(reservationId);
+                  this.displayReservations();
+                  alert("Reservation cancelled successfully.");
+                }
+              });
+            });
+        }
+
+        initOrders() {
+          this.displayOrders();
+        }
+
+        addOrder(dish) {
+          const order = {
+            id: Date.now(),
+            dishId: dish.id,
+            dishName: dish.name,
+            price: dish.price,
+            status: "Preparing",
+            orderDate: new Date().toLocaleString(),
+          };
+
+          this.db.addOrder(order);
+          this.displayOrders();
+        }
+
+        displayOrders() {
+          const ordersContainer = document.getElementById("order-list");
+          ordersContainer.innerHTML = "";
+
+          const orders = this.db.getOrders();
+
+          if (orders.length === 0) {
+            ordersContainer.innerHTML = "<p>You have no orders yet.</p>";
+            return;
+          }
+
+          orders.forEach((order) => {
+            const orderCard = document.createElement("div");
+            orderCard.className = "order-card";
+            orderCard.innerHTML = `
+                        <div class="order-info">
+                            <h3>${order.dishName}</h3>
+                            <p>Price: $${order.price.toFixed(2)}</p>
+                            <p>Status: ${order.status}</p>
+                            <p>Order Date: ${order.orderDate}</p>
+                        </div>
+                        <button class="btn btn-danger cancel-order-btn" data-id="${
+                          order.id
+                        }">Cancel Order</button>
+                    `;
+            ordersContainer.appendChild(orderCard);
+          });
+
+          // Add event listeners for cancel buttons
+          document.querySelectorAll(".cancel-order-btn").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+              const orderId = parseInt(e.target.getAttribute("data-id"));
+              if (confirm("Are you sure you want to cancel this order?")) {
+                this.db.cancelOrder(orderId);
+                this.displayOrders();
+                alert("Order cancelled successfully.");
+              }
+            });
+          });
+        }
+      }
+
+      // Initialize the app when DOM is loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        new RestaurantApp();
+      });
+    </script>
+  </body>
+</html>
